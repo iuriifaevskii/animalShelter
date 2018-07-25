@@ -18,8 +18,8 @@ export class UserController {
         return this.userRepository.save(request.body);
     }
 
-    async remove(request: Request, response: Response, next: NextFunction) {
-        await this.userRepository.removeById(request.params.id);
-    }
+    // async remove(request: Request, response: Response, next: NextFunction) {
+    //     await this.userRepository.removeById(request.params.id);
+    // }
 
 }

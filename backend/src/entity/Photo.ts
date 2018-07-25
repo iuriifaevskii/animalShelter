@@ -1,20 +1,23 @@
-import {Entity, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 @Entity()
 export class Photo {
-    @Column()
+
+    @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        length: 100
+    })
     name: string;
 
-    @Column()
+    @Column("text")
     description: string;
 
     @Column()
     filename: string;
 
-    @Column()
+    @Column("double")
     views: number;
 
     @Column()

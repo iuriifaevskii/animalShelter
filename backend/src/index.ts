@@ -139,34 +139,48 @@ createConnection().then(async connection => {
     //await photoRepository.save(photo);
 
 
-    let albomRepository = connection.getRepository(Album);
+    //let albomRepository = connection.getRepository(Album);
+//
+    //let album1 = new Album();
+    //album1.name = 'album 01';
+    //
+    //await albomRepository.save(album1);
+//
+    //let album2 = new Album();
+    //album2.name = 'album 02';
+//
+    //await albomRepository.save(album2);
+//
+    //let photo123 = new Photo();
+    //photo123.name = "Me and Bears";
+    //photo123.description = "I am near polar bears";
+    //photo123.filename = "photo-with-bears.jpg";
+    //photo123.views = 3;
+    //photo123.isPublished = true;
+    //photo123.albums = [album1, album2];
+//
+    //await photoRepository.save(photo123);
+//
+    //const loadedPhoto = await connection
+    //    .getRepository(Photo)
+    //    .findOne(1, { relations: ["albums"] });
+//
+    //console.log(loadedPhoto)
 
-    let album1 = new Album();
-    album1.name = 'album 01';
-    
-    await albomRepository.save(album1);
-
-    let album2 = new Album();
-    album2.name = 'album 02';
-
-    await albomRepository.save(album2);
-
-    let photo123 = new Photo();
-    photo123.name = "Me and Bears";
-    photo123.description = "I am near polar bears";
-    photo123.filename = "photo-with-bears.jpg";
-    photo123.views = 3;
-    photo123.isPublished = true;
-    photo123.albums = [album1, album2];
-
-    await photoRepository.save(photo123);
-
-    const loadedPhoto = await connection
+    let photos = await connection
         .getRepository(Photo)
-        .findOne(1, { relations: ["albums"] });
+        .createQueryBuilder("photo") // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
+        .innerJoinAndSelect("photo.metadata", "metadata")
+        .leftJoinAndSelect("photo.albums", "album")
+        .where("photo.isPublished = true")
+        .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
+        .orderBy("photo.id", "DESC")
+        .skip(5)
+        .take(10)
+        .setParameters({ photoName: "Me and Bears", bearName: "Bears" })
+        .getMany();
 
-    console.log(loadedPhoto)
+    console.log(photos)
 
-    console.log("Photo is saved, photo metadata is saved too.")
     console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
 }).catch(error => console.log(error));

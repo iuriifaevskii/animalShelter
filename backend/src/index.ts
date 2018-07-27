@@ -167,20 +167,20 @@ createConnection().then(async connection => {
 //
     //console.log(loadedPhoto)
 
-    let photos = await connection
-        .getRepository(Photo)
-        .createQueryBuilder("photo") // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
-        .innerJoinAndSelect("photo.metadata", "metadata")
-        .leftJoinAndSelect("photo.albums", "album")
-        .where("photo.isPublished = true")
-        .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
-        .orderBy("photo.id", "DESC")
-        .skip(5)
-        .take(10)
-        .setParameters({ photoName: "Me and Bears", bearName: "Bears" })
-        .getMany();
-
-    console.log(photos)
+    //let photos = await connection
+    //    .getRepository(Photo)
+    //    .createQueryBuilder("photo") // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
+    //    .innerJoinAndSelect("photo.metadata", "metadata")
+    //    .leftJoinAndSelect("photo.albums", "album")
+    //    .where("photo.isPublished = true")
+    //    .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
+    //    .orderBy("photo.id", "DESC")
+    //    .skip(5)
+    //    .take(10)
+    //    .setParameters({ photoName: "Me and Bears", bearName: "Bears" })
+    //    .getMany();
+//
+    //console.log(photos)
 
     console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
 }).catch(error => console.log(error));

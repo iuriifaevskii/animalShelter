@@ -28,4 +28,9 @@ export class User {
         const hash = await bcrypt.hash(this.password, salt, null);
         this.password = hash;
     }
+
+    public async comparePassword(candidatePassword) {
+        const isMatch = await bcrypt.compare(candidatePassword, this.password);
+        return isMatch;
+    }
 }

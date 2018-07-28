@@ -39,4 +39,10 @@ export class AuthenticationController {
 
         return {token: tokenForUser(user)};
     }
+
+    async signin(request: Request, response: Response, next: NextFunction) {
+        // user has already had their email and password auth'd
+        // we just need to give them a token
+        return {token: tokenForUser(request.user)};
+    }
 }

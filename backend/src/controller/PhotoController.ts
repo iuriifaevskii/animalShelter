@@ -68,7 +68,7 @@ export class PhotoController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let photo = await this.photoRepository.findOne({id: request.params.id});
+        let photo = await this.photoRepository.findOne({id: request.params.id}) || false;
         
         await this.photoMetadataRepo
             .createQueryBuilder()

@@ -1,21 +1,21 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
-import {User} from "../entity/User";
+import {Album} from "../entity/Album";
 
-export class UserController {
+export class AlbumController {
 
-    private userRepository = getRepository(User);
+    private albumRepository = getRepository(Album);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return await this.userRepository.find();
+        return await this.albumRepository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return await this.userRepository.findOne(request.params.id) || false;
+        return await this.albumRepository.findOne(request.params.id) || false;
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        return await this.userRepository.save(request.body);
+        return await this.albumRepository.save(request.body);
     }
 
     /* 
@@ -27,19 +27,19 @@ export class UserController {
     */
     async edit(request: Request, response: Response, next: NextFunction) {
         let {body} = request;
-        let userToUpdate = await this.userRepository.findOne({id: body.id});
+        let albumToUpdate = await this.albumRepository.findOne({id: body.id});
         
-        Object.entries(userToUpdate).forEach(([key, value]) => {
+        Object.entries(albumToUpdate).forEach(([key, value]) => {
             if(Object.keys(body).find(el => el === key)) {
-                userToUpdate[key] = body[key];
+                albumToUpdate[key] = body[key];
             }
         });
         
-        return await this.userRepository.save(userToUpdate);
+        return await this.albumRepository.save(albumToUpdate);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let user = await this.userRepository.findOne({id: request.params.id});
-        return user ? await this.userRepository.remove(user) : false;
+        let album = await this.albumRepository.findOne({id: request.params.id});
+        return album ? await this.albumRepository.remove(album) : false;
     }
 }

@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js run start
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js remove webpack-node-externals
 
 PATH: 
   C:\Python27\;C:\Python27\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_152\bin;C:\Users\yuriy\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Users\yuriy\AppData\Local\Microsoft\WindowsApps;C:\Users\yuriy\AppData\Roaming\npm;C:\Program Files\Microsoft VS Code\bin;C:\Users\yuriy\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\yuriy\AppData\Local\Yarn\bin;C:\Program Files\Heroku\bin
@@ -23,10 +23,7 @@ Lockfile:
   No lockfile
 
 Trace: 
-  Error: Couldn't find a package.json file in "E:\\animalShelter"
+  Error: No lockfile in this directory. Run `yarn install` to generate one.
       at new MessageError (C:\Program Files (x86)\Yarn\lib\cli.js:186:110)
-      at C:\Program Files (x86)\Yarn\lib\cli.js:40048:15
-      at Generator.next (<anonymous>)
-      at step (C:\Program Files (x86)\Yarn\lib\cli.js:98:30)
-      at C:\Program Files (x86)\Yarn\lib\cli.js:109:13
+      at C:\Program Files (x86)\Yarn\lib\cli.js:89389:13
       at <anonymous>

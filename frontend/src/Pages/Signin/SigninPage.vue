@@ -1,7 +1,14 @@
 <template>
     <div>
-        <hr>
-        <h1>Signin Page</h1>
-        <p>this is Signin page</p>
+        <signin-form></signin-form>
     </div>
 </template>
+
+<script>
+import SigninForm from './SigninForm';
+export default {
+    components: {
+        'signin-form': SigninForm
+    }
+}
+</script>

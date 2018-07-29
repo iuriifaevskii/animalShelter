@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import * as signin from './modules/signin';
+import signin from './modules/signin';
 
 Vue.use(Vuex);
 

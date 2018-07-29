@@ -1,6 +1,8 @@
 import {
     Home,
-    Signin
+    Signin,
+    Profile,
+    Signout
 } from './pages';
 import Header from './layouts';
 
@@ -12,5 +14,13 @@ export const routes = [
     { path: '/signin', name: 'routerSignin', components: {
         default: Signin,
         'header-top': Header
-    } }
+    } }, 
+    { path: '/profile', name: 'routerProfile', components: {
+        default: Profile,
+        'header-top': Header
+    } },
+    { path: '/signout', name: 'routerSignout', components: {
+        default: Signout,
+        'header-top': Header
+    } },
 ];

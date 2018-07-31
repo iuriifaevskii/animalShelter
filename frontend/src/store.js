@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import signin from './modules/signin';
+import auth from './modules/auth';
+import profile from './modules/profile';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export const store = new Vuex.Store({
     actions: {
     },
     modules: {
-        signin
+        auth,
+        profile
     }
 });

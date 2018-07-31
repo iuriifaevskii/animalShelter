@@ -14,7 +14,7 @@ export class AuthenticationController {
     private userRepository = getRepository(User);
 
     goToHome(request: Request, response: Response, next: NextFunction) {
-        return {hi: 'there'};
+        return {message: 'secret 123'};
     }
 
     async signup(request: Request, response: Response, next: NextFunction) {

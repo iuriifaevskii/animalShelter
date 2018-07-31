@@ -1,7 +1,7 @@
 <template>
     <form>
-        <h1>Signin Form</h1>
         <hr>
+        <h1>Signin Form</h1>
         <div v-if="getError">{{getError}}</div>
         <div class="form-group">
             <label for="email">Email:</label>

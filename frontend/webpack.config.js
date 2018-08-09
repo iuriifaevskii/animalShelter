@@ -11,16 +11,23 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'url-loader'
+      },
+      {
         test: /\.css$/,
         use: [
           'vue-style-loader',
+          'style-loader',
           'css-loader'
+          
         ],
       },
       {
         test: /\.scss$/,
         use: [
           'vue-style-loader',
+          'style-loader',
           'css-loader',
           'sass-loader'
         ],

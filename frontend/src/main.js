@@ -1,5 +1,7 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router';
+import Vue from 'vue';
+import Element from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import VueRouter from 'vue-router'
 import Vuelidate from 'vuelidate';
 import App from './App.vue'
 
@@ -8,6 +10,7 @@ import {store} from './store';
 
 require('./main.scss');
 
+Vue.use(Element);
 Vue.use(Vuelidate)
 Vue.use(VueRouter);
 

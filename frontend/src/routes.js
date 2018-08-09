@@ -9,23 +9,44 @@ import {
 import Header from './layouts';
 
 const ifNotAuthenticated = (to, from, next) => {
-    if (!store.getters.authenticated) {
-        next()
-        return
-    }
-    next('/')
+    store.dispatch('isSignIn', localStorage.getItem('token'))
+        .then(response => {
+            if (store.getters.authenticated) {
+                next('/')
+                return
+            }
+            next()
+            return
+        })
+        .catch(e => next());
 }
 
 const ifAuthenticated = (to, from, next) => {
-    if (store.getters.authenticated) {
-        next()
-        return
+    if (to.name === 'routerProfile' && to.query.access_token) {
+        localStorage.setItem('token', to.query.access_token);
     }
-    next('/signin')
+    store.dispatch('isSignIn', localStorage.getItem('token'))
+        .then(response => {
+            if (store.getters.authenticated) {
+                next()
+                return
+            }
+            next('/signin')
+        })
+        .catch(e => next('/signin'));
+}
+
+const availableToAll = (to, from, next) => {
+    store.dispatch('isSignIn', localStorage.getItem('token'))
+        .then(response => {
+            next();
+            return
+        })
+        .catch(e => next());
 }
 
 export const routes = [
-    { path: '', name: 'routerHome', components: {
+    { path: '', name: 'routerHome', beforeEnter: availableToAll, components: {
         default: Home,
         'header-top': Header
     } },
@@ -37,7 +58,7 @@ export const routes = [
         default: Profile,
         'header-top': Header
     } },
-    { path: '/signout', name: 'routerSignout', beforeEnter: ifAuthenticated, components: {
+    { path: '/signout', name: 'routerSignout', components: {
         default: Signout,
         'header-top': Header
     } },

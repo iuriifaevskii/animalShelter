@@ -2,12 +2,12 @@ import * as axios from 'axios';
 import {router} from '../main';
 
 const state = {
-    authenticated: localStorage.getItem('token'),
+    authenticated: !!localStorage.getItem('token'),
     error: ''
 };
 
 const getters = {
-    authenticated: state => !!state.authenticated,
+    authenticated: state => state.authenticated,
     getError: state => state.error
 };
 
@@ -36,11 +36,13 @@ const actions = {
             .catch((err) => commit('errorUser', 'Bad Login Info'));
     },
     actionSignout: ({commit}) => {
-        commit('unauthUser');
-        localStorage.removeItem('token');
+        return new Promise((resolve, reject) => {
+            commit('unauthUser');
+            localStorage.removeItem('token');
+            resolve()
+        })
     },
     actionSignup: ({commit}, payload) => {
-        console.log(payload)
         axios.post(`http://localhost:3000/signup`, payload)
             .then(response => {
                 commit('authUser');
@@ -48,6 +50,31 @@ const actions = {
                 router.push({name: 'routerProfile'});
             })
             .catch((err) => commit('errorUser', 'Bad Login Info'));
+    },
+    isSignIn: ({ commit }, payload) => {
+        return new Promise((resolve, reject) => {
+            axios.get(`http://localhost:3000/auth/checkToken`, {
+                headers: {authorization: payload}
+            })
+                .then(response => {
+                    if (response.data) {
+                        commit('authUser');
+                        localStorage.setItem('token', payload);
+                        resolve(response.data);
+                    } else {
+                        commit('unauthUser');
+                        commit('errorUser', 'Bad Login Info')
+                        localStorage.removeItem('token');
+                        reject(false);
+                    }
+                })
+                .catch((err) => {
+                    commit('unauthUser');
+                    commit('errorUser', 'Bad Login Info')
+                    localStorage.removeItem('token');
+                    reject(false);
+                });
+            });
     }
 };
 

@@ -22,6 +22,9 @@ export class User {
     @Column()
     password: string;
 
+    @Column()
+    googleId: string;
+
     @BeforeInsert()
     async resetPassword() {
         const salt = await bcrypt.genSalt(10);

@@ -6,9 +6,11 @@
 </template>
 
 <script>
+import {router} from '../../main'
 export default {
     created() {
-        this.$store.dispatch('actionSignout');
+        this.$store.dispatch('actionSignout')
+            .then(() => router.push({name: 'routerHome'}));
     }
 }
 </script>

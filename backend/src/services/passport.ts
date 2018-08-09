@@ -4,10 +4,38 @@ import {User} from '../entity/User';
 import config from '../config';
 import * as Jwt from 'passport-jwt';
 import * as Local from 'passport-local';
+import * as Google from 'passport-google-oauth';
 
 const JwtStrategy = Jwt.Strategy;
 const ExtractJwt = Jwt.ExtractJwt;
 const LocalStrategy = Local.Strategy;
+const GoogleStrategy = Google.OAuth2Strategy;
+
+// Create google strategy
+
+const googleOptions = {
+    clientID: config.google.clientID,
+    clientSecret: config.google.clientSecret,
+    callbackURL: config.google.callbackURL
+};
+const googleLogin = new GoogleStrategy(googleOptions, async (accessToken, refreshToken, profile, done) => {
+    const userRepository = getRepository(User);
+    const currentUser = await userRepository.findOne({googleId: profile.id.toString()});
+    if(currentUser) {
+        return done(null, currentUser);
+    } else {
+        const user = new User();
+        user.firstName = profile.name.givenName;
+        user.lastName = profile.name.familyName;
+        user.email = profile.emails[0].value;
+        user.password = '';
+        user.age = 20;
+        user.googleId = profile.id.toString();
+
+        await userRepository.save(user);
+        return done(null, user);
+    }
+});
 
 // Create local strategy
 const localOptions = {usernameField: 'email'};
@@ -46,5 +74,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
 });
 
 // Tell pasport to use this strategy
+
+passport.use(googleLogin);
 passport.use(jwtLogin);
 passport.use(localLogin);

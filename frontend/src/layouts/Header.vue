@@ -2,7 +2,7 @@
     <nav class="navbar is-transparent">
         <div class="navbar-brand">
             <div class="navbar-item">
-                <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+                <img src="http://pngimg.com/uploads/fox/fox_PNG23158.png" alt="Bulma: a modern CSS framework based on Flexbox" width="63" height="28">
             </div>
             <div class="navbar-burger burger" @click="showNav = !showNav" :class="{'is-active': showNav}" data-target="navbarExampleTransparentExample">
                 <span></span>
@@ -56,5 +56,8 @@ export default {
 <style>
     .google-button {
         margin: auto 5px;
+    }
+    .navbar-item img {
+        max-height: initial;
     }
 </style>

@@ -1,32 +1,18 @@
 <template>
-    <form>
-        <hr>
-        <h1>Signin Form</h1>
-        <div v-if="getError">{{getError}}</div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input 
-                id="email"
-                type="text"
-                class="form-control"
-                v-model.lazy="userData.email">
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input 
-                id="password"
-                type="password"
-                class="form-control"
-                v-model.lazy="userData.password">
-        </div>
-        <div class="form-group">
-            <button
-                class="btn btn-primary"
-                @click.prevent="submit">
-                    Signin
-            </button>
-        </div>
-    </form>
+<div class="container center-align">
+    <el-form :model="signInForm" status-icon :rules="rules" ref="signInForm" label-width="120px" class="signInFormClass">
+        <h1 class="title">Sign in form</h1>
+        <el-form-item label="Email" prop="email">
+            <el-input v-model="signInForm.email" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Password" prop="password">
+            <el-input type="password" v-model="signInForm.password"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button class="button-width" type="primary" @click="submit(signInForm)">Sign In</el-button>
+        </el-form-item>
+    </el-form>
+</div>
 </template>
 
 <script>
@@ -35,9 +21,19 @@ import {mapGetters} from 'vuex';
 export default {
     data() {
         return {
-            userData: {
+            signInForm: {
                 email: '',
                 password: '',
+            },
+            rules: {
+                email: [
+                    { required: true, message: 'Please input email address', trigger: 'blur' },
+                    { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+                ],
+                password: [
+                    { required: true, message: 'Please input password', trigger: 'blur' },
+                    { min: 6, max: 25, message: 'Length should be 6 to 20', trigger: 'blur' }
+                ]
             }
         }
     },
@@ -47,9 +43,27 @@ export default {
         ])
     },
     methods: {
-        submit() {
-            this.$store.dispatch('actionSignin', this.userData);
+        submit(signInForm) {
+            this.$store.dispatch('actionSignin', signInForm);
         }
     }
 }
 </script>
+
+<style>
+    .center-align {
+        width: 75%;
+        padding: 20px;
+        margin: 20px auto;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+    .button-width {
+        width: 100%;
+    }
+    @media screen and (min-width: 1088px) {
+        .center-align {
+            width: 40%;
+        }
+    }
+</style>

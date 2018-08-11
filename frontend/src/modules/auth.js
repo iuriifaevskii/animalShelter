@@ -29,11 +29,10 @@ const actions = {
         axios.post(`http://localhost:3000/signin`, payload)
             .then(response => {
                 commit('authUser');
-
                 localStorage.setItem('token', response.data.token)
                 router.push({name: 'routerProfile'});
             })
-            .catch((err) => commit('errorUser', 'Bad Login Info'));
+            .catch((err) => console.log(err));
     },
     actionSignout: ({commit}) => {
         return new Promise((resolve, reject) => {
@@ -63,14 +62,12 @@ const actions = {
                         resolve(response.data);
                     } else {
                         commit('unauthUser');
-                        commit('errorUser', 'Bad Login Info')
                         localStorage.removeItem('token');
                         reject(false);
                     }
                 })
                 .catch((err) => {
                     commit('unauthUser');
-                    commit('errorUser', 'Bad Login Info')
                     localStorage.removeItem('token');
                     reject(false);
                 });

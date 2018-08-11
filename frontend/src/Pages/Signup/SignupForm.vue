@@ -1,71 +1,64 @@
 <template>
-    <form>
-        <hr>
-        <h1>Signup Form</h1>
-        <div v-if="getError">Oops! {{getError}}</div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input 
-                id="email"
-                type="text"
-                ref="email"
-                class="form-control"
-                v-model.trim="$v.userData.email.$model">
-        </div>
-        <div class="error" v-if="!$v.userData.email.required">Field is required.</div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input 
-                id="password"
-                type="password"
-                class="form-control"
-                v-model.trim="$v.userData.password.$model">
-        </div>
-        <div class="error" v-if="!$v.userData.password.required">Field is required.</div>
-        <div v-if="$v.userData.password.$model!==$v.userData.passwordConfirm.$model">Passwords must match</div>
-        <div class="form-group">
-            <label for="passwordConfirm">Confirm password:</label>
-            <input 
-                id="passwordConfirm"
-                type="password"
-                class="form-control"
-                v-model.trim="$v.userData.passwordConfirm.$model">
-        </div>
-        <div class="error" v-if="!$v.userData.passwordConfirm.required">Field is required.</div>
-        <div class="form-group">
-            <button
-                class="btn btn-primary"
-                @click.prevent="submit">
-                    Sign up
-            </button>
-        </div>
-    </form>
+<div class="container center-align">
+    <el-form :model="signUpForm" status-icon :rules="rules" ref="signUpForm" label-width="120px" class="signUpFormClass">
+        <h1 class="title">Sign up form</h1>
+        <div class="error" v-if="getError">Oops! {{getError}}</div>
+        <el-form-item label="Email" prop="email">
+            <el-input v-model="signUpForm.email" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Password" prop="pass">
+            <el-input type="password" v-model="signUpForm.pass" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Confirm" prop="checkPass">
+            <el-input type="password" v-model="signUpForm.checkPass" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button class="button-width" type="primary" @click="submit(signUpForm)">Sign Up</el-button>
+        </el-form-item>
+    </el-form>
+</div>
 </template>
 
 <script>
-import {required} from 'vuelidate/lib/validators'
 import {mapGetters} from 'vuex';
-
 export default {
     data() {
-        return {
-            userData: {
-                email: '',
-                password: '',
-                passwordConfirm: ''
+        var validatePass = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('Please input the password'));
+            } else {
+                if (this.signUpForm.checkPass !== '') {
+                    this.$refs.signUpForm.validateField('checkPass');
+                }
+                callback();
             }
-        }
-    },
-    validations: {
-        userData: {
-            email: {
-                required
+        };
+        var validatePass2 = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('Please input the password again'));
+            } else if (value !== this.signUpForm.pass) {
+                callback(new Error('Two inputs don\'t match!'));
+            } else {
+                callback();
+            }
+        };
+        return {
+            signUpForm: {
+                email: '',
+                pass: '',
+                checkPass: ''
             },
-            password: {
-                required
-            },
-            passwordConfirm: {
-                required
+            rules: {
+                pass: [
+                    { validator: validatePass, trigger: 'blur' }
+                ],
+                checkPass: [
+                    { validator: validatePass2, trigger: 'blur' }
+                ],
+                email: [
+                    { required: true, message: 'Please input email address', trigger: 'blur' },
+                    { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+                ]
             }
         }
     },
@@ -75,12 +68,42 @@ export default {
         ])
     },
     methods: {
-        submit() {
-            this.$store.dispatch('actionSignup', {
-                email: this.userData.email,
-                password: this.userData.password
+        submit(signUpForm) {
+            this.$refs['signUpForm'].validate((valid) => {
+                if (valid) {
+                    this.$store.dispatch('actionSignup', {
+                        email: signUpForm.email,
+                        password: signUpForm.pass
+                    });
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
             });
         }
     }
 }
 </script>
+
+<style>
+    .center-align {
+        width: 75%;
+        padding: 20px;
+        margin: 20px auto;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+    .button-width {
+        width: 100%;
+    }
+    .error {
+        color: red;
+        font-weight: 500;
+        margin: 7px;
+    }
+    @media screen and (min-width: 1088px) {
+        .center-align {
+            width: 40%;
+        }
+    }
+</style>

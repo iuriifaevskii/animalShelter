@@ -3,7 +3,10 @@ import * as axios from 'axios';
 const state = {
     albums: [],
     pagination: {
-        'current_page': 1
+        'current_page':
+            localStorage.getItem('pagination')
+            ? JSON.parse(localStorage.getItem('pagination')).current_page
+            : 1
     },
     loading: false
 };
@@ -33,6 +36,7 @@ const actions = {
         commit('setLoading', true);
         axios.get(`http://localhost:3000/albums?page=${currentPage}`)
             .then(response => {
+                localStorage.setItem('pagination', JSON.stringify({current_page: currentPage}));
                 commit('setAlbums', response.data.data);
                 commit('setPagination', response.data.pagination);
             })

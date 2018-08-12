@@ -56,6 +56,8 @@ export default {
 <style>
     .google-button {
         margin: auto 5px;
+        padding: 0 10px 0 10px !important;;
+        float: initial !important;;
     }
     .navbar-item img {
         max-height: initial;

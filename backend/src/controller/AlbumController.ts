@@ -7,7 +7,12 @@ export class AlbumController {
     private albumRepository = getRepository(Album);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return await this.albumRepository.find();
+        return await this.albumRepository
+            .createQueryBuilder("album")
+            .leftJoinAndSelect("album.photos", "photos")
+            .leftJoinAndSelect("photos.author", "author")
+            .leftJoinAndSelect("photos.metadata", "metadata")
+            .getMany();
     }
 
     async one(request: Request, response: Response, next: NextFunction) {

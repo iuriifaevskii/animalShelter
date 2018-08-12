@@ -5,6 +5,8 @@ import VueRouter from 'vue-router'
 import Vuelidate from 'vuelidate';
 import App from './App.vue'
 
+import './components';
+
 import {routes} from './routes';
 import {store} from './store';
 

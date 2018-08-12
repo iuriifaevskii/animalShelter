@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import album from './modules/album';
 import auth from './modules/auth';
 import profile from './modules/profile';
 
@@ -16,6 +17,7 @@ export const store = new Vuex.Store({
     actions: {
     },
     modules: {
+        album,
         auth,
         profile
     }

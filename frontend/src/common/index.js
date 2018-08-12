@@ -1,5 +1,7 @@
 import AlbumCard from './AlbumCard';
+import PaginationComponent from './PaginationComponent';
 
 export {
-    AlbumCard
+    AlbumCard,
+    PaginationComponent
 };

@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <h1 class="title has-text-centered">All Albums</h1>
-        <template v-if="getLoading">Loading...</template>
-        <template v-else>
+        <as-loader :loading="getLoading"></as-loader>
+        <template v-if="!getLoading">
             <div class="columns" :key="i" v-for="i in Math.ceil(getAlbums.length / 3)">
                 <div class="column" :key="item.id" v-for="item in getAlbums.slice((i - 1) * 3, i * 3)">
                     <as-album-card

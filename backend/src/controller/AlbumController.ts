@@ -36,7 +36,16 @@ export class AlbumController {
         return await this.albumRepository.findOne(request.params.id) || false;
     }
 
+    // create album using sockets
+    // post request: http://localhost:3000/albums
+    /*
+    {
+	    "name": "new album",
+	    "photos": []
+    }
+    */
     async save(request: Request, response: Response, next: NextFunction) {
+        request['io'].emit('ADD_ALBUM', request.body);
         return await this.albumRepository.save(request.body);
     }
 

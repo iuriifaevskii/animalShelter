@@ -7,7 +7,7 @@ import profile from './modules/profile';
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
     state: {
     },
     getters: {

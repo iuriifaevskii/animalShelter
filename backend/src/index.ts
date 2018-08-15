@@ -18,9 +18,14 @@ createConnection().then(async connection => {
     const app = express();
     app.use(cors());
     app.use(bodyParser.json());
-    
+
     const server = new http.Server(app);
     const ioServer = io(server);
+
+    app.use((req, res, next) => {
+      req['io'] = ioServer;
+      next();
+    });
 
     // register express routes from defined application routes
     Routes.forEach(route => {
@@ -41,11 +46,13 @@ createConnection().then(async connection => {
     // start express server
     server.listen(3000);
     console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
-    
+
+    // socket connection
     ioServer.on('connection', socket => {
-        socket.emit('news', { hello: 'world' });
-        socket.on('my other event', data => {
-            console.log(data);
+        console.log('connect!')
+        socket.on('disconnect', () => {
+            console.log('disconnect!')
         });
     });
+
 }).catch(error => console.log(error));

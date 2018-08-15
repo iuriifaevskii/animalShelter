@@ -26,6 +26,10 @@ const mutations = {
     },
     setLoading: (state, payload) => {
         state.loading = payload;
+    },
+    SOCKET_ADD_ALBUM: (state, payload) => {
+        console.log('SOCKET_ADD_ALBUM', payload)
+        state.albums.push(payload);
     }
 };
 

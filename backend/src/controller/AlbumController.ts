@@ -7,9 +7,10 @@ export class AlbumController {
     private albumRepository = getRepository(Album);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        const currentPage = request.query.page || 1;
+        const page = request.query.page;
+        const currentPage = page && Number(page) <= 0 ? 1 : page;
         const perPage = request.query.per_page || 10;
-        
+
         const albums = await this.albumRepository
             .createQueryBuilder("album")
             .leftJoinAndSelect("album.photos", "photos")
@@ -19,14 +20,16 @@ export class AlbumController {
             .take(perPage)
             .getManyAndCount();
 
+        const lastPage = Math.ceil(Number(albums[1])/Number(perPage));
+
         return {
             pagination: {
                 'total': Number(albums[1]),
                 'per_page': Number(perPage),
                 'current_page': Number(currentPage),
-                'last_page': Number(albums[1]),
+                'last_page': lastPage,
                 'from': 1,
-                'to': Number(albums[1])
+                'to': lastPage
             },
             data: albums[0]
         };

@@ -54,7 +54,7 @@ export const routes = [
         default: Signin,
         'header-top': Header
     } }, 
-    { path: '/profile', name: 'routerProfile', beforeEnter: ifAuthenticated, components: {
+    { path: '/profile', name: 'routerProfile', beforeEnter: ifNotAuthenticated, components: {
         default: Profile,
         'header-top': Header
     } },
